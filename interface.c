@@ -104,7 +104,7 @@ if_handle* init_output_interface(rule_t *cfg) {
 
 int receive_packet(if_handle* hdl, packet_t* buffer) {
     int data_size;
-    data_size = recv(hdl->socket, buffer->packet, 1500, 0);
+    data_size = recv(hdl->socket, buffer->packet, MAX_PACKET_SIZE, 0);
     if(data_size >= 0) {
         buffer->data_size = data_size;
     } else {
