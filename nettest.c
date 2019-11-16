@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #include <syslog.h>
 #include "nettest.h"
@@ -76,21 +77,9 @@ int main(int argc, char** argv ) {
 
     for(int i=0; i< rules_config.rules_num; i++)
     {
-        if_handle *in;
-        if_handle *out;
-        rule_handle *rule;
+        rule_handle_t *rule;
 
-        in = init_input_interface(&rules_config.rules[i]);
-        out = init_output_interface(&rules_config.rules[i]);
-        if(!in) {
-            syslog(LOG_ERR, "Error opening interface %s\n", rules_config.rules[i].in);
-            goto error;
-        }
-        if(!out) {
-            syslog(LOG_ERR, "Error opening interface %s\n", rules_config.rules[i].out);
-            goto error;
-        }
-        rule = init_rule(&rules_config.rules[i], in, out);
+        rule = init_rule(&rules_config.rules[i]);
         if(!rule) {
             syslog(LOG_ERR, "Error creating thread\n");
             goto error;
